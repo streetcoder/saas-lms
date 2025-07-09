@@ -23,6 +23,10 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { subjects } from "@/constants"
+import { createCompanion } from "@/lib/actions/companion.actions"
+import { redirect } from "next/navigation"
+import { Textarea } from "./ui/textarea"
+
 
 const formSchema = z.object({
   name: z.string().min(1, {message: 'Companion is required'}),
@@ -48,8 +52,16 @@ const CompanionForm = () => {
   })
  
   
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+
+    if(companion){
+      redirect(`/companions/${companion.id}`);
+    }else{
+      console.log('Failed to create a companion');
+      redirect('/');
+    }
+    
   }
 
 
@@ -112,7 +124,7 @@ const CompanionForm = () => {
             <FormItem>
               <FormLabel>What should the companion help</FormLabel>
               <FormControl>
-                <Input placeholder="Ex. Derivates & Integrals" {...field} className="input" />
+                <Textarea placeholder="Ex. Derivates & Integrals" {...field} className="input" />
               </FormControl>
               <FormMessage />
             </FormItem>
