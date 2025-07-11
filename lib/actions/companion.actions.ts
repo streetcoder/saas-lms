@@ -70,28 +70,6 @@ export const addToSessionHistory = async (companionId: string) => {
     return data;
 }
 
-// export const addToSessionHistory = async (companionId: string) => {
-//     const { userId } = await auth();
-//     if (!userId) throw new Error("User not authenticated");
-
-//     const supabase = createSupabaseClient();
-//     const { data, error } = await supabase
-//         .from('session_history')
-//         .insert([
-//             {
-//                 companion_id: companionId,
-//                 user_id: userId,
-//             }
-//         ]);
-
-//     if (error) {
-//         console.error("Supabase insert error:", error);
-//         throw new Error(error.message);
-//     }
-
-//     return data;
-// }
-
 export const getRecentSessions = async (limit = 10) => {
     const supabase = createSupabaseClient();
     const { data, error } = await supabase
